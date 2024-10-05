@@ -1,13 +1,90 @@
-import React from 'react';
-import { Navbar, Container, Row, Col, Card } from 'react-bootstrap';
-import FoodList from './components/FoodList';
-import CategoryList from './components/CategoryList';
-import UserList from './components/UserList';
+// @ts-nocheck
+// import React from 'react';
+// import { Navbar, Container, Row, Col, Card } from 'react-bootstrap';
+// import FoodList from './components/FoodList';
+// import CategoryList from './components/CategoryList';
+// import UserList from './components/UserList';
 
-function App() {
+import * as React from "react";
+import { createTheme, styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+// import MuiDrawer from "@mui/material/Drawer";
+// eslint-disable-next-line no-unused-vars
+
+import CssBaseline from "@mui/material/CssBaseline";
+// import Typography from "@mui/material/Typography";
+
+// import TopBar from "components/TopBar";
+import TopBar from "./components/TopBar";
+import SideBar from "./components/SideBar";
+import { Outlet } from 'react-router-dom'; 
+import { ThemeProvider} from '@mui/material/styles';
+import { getDesignTokens } from "./theme";
+
+
+
+// const drawerWidth = 240;
+
+
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+
+
+
+
+export default function MiniDrawer() {
+  
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  const [mode,setMode] = React.useState("dark");
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)),[mode]);
+
   return (
-    <>
-      <Navbar bg="warning" variant="dark">
+    <ThemeProvider theme={theme}>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+
+          <TopBar open={open} handleDrawerOpen={handleDrawerOpen}/>
+          <SideBar open={open} handleDrawerClose={handleDrawerClose}/>
+
+          
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <DrawerHeader />
+            <Outlet/>   
+            
+          </Box>
+        </Box>
+    </ThemeProvider>
+  );
+}
+
+// function App() {
+//   return (
+//     <>
+//     <div className='app'>
+//       <h1>
+//           hellow in my front end dashboard
+//       </h1>
+//        </div>
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <Navbar bg="warning" variant="dark">
         <Navbar.Brand href="#home" className="mx-auto">Dashboard</Navbar.Brand>
       </Navbar>
       <Container style={{ marginTop: '20px' }}>
@@ -37,31 +114,13 @@ function App() {
             </Card>
           </Col>
         </Row>
-      </Container>
-    </>
-  );
+      </Container> */
 }
+//     </>
+//   );
+// }
 
-export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// export default App;
 
 // import React from 'react';
 // import './App.css';
