@@ -60,7 +60,7 @@ const CategoryList = () => {
 
     return (
         <div>
-            <h2>Category List</h2>
+            <h2>Category List  </h2>
             <hr/>
             <form onSubmit={handleSubmit}>
                 <input style={{padding :'5px',width :'90%'

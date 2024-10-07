@@ -6,6 +6,8 @@ import App from './App';
 import CategoryList from './components/CategoryList.js';
 import FoodList from './components/FoodList.js';
 import UsersList from './components/UserList.js';
+// @ts-ignore
+import LandingPage from "./components/LandingPage"; 
 
 
 import {
@@ -19,13 +21,18 @@ import {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    
+    <Route path="/" element={<App  />}>
+      <Route index element={<LandingPage />} /> 
       <Route path="category-list" element={<CategoryList />} />
       <Route path="food-list" element={<FoodList />} />
       <Route path="users-list" element={<UsersList />} />
     </Route>
   )
 );
+
+
+
 
 // function Root() {
 //   return <RouterProvider router={router} />;

@@ -69,6 +69,7 @@ export default function SideBar({ open, handleDrawerClose }) {
 
   // Pages data
   const pages = [
+    { text: "Home", route: "/" },
     { text: "FoodList", route: "/food-list" },
     { text: "CategoryList", route: "/category-list" },
     { text: "UsersList", route: "/users-list" },
