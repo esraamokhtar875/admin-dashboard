@@ -8,11 +8,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
+import HomeIcon from '@mui/icons-material/Home';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CategoryIcon from '@mui/icons-material/Category';
+import PeopleIcon from '@mui/icons-material/People';
 
 const drawerWidth = 240;
 
@@ -69,10 +71,10 @@ export default function SideBar({ open, handleDrawerClose }) {
 
   // Pages data
   const pages = [
-    { text: "Home", route: "/" },
-    { text: "FoodList", route: "/food-list" },
-    { text: "CategoryList", route: "/category-list" },
-    { text: "UsersList", route: "/users-list" },
+    { text: "Home", route: "/" , icon: <HomeIcon /> },
+    { text: "FoodList", route: "/food-list", icon: <MenuBookIcon />  },
+    { text: "CategoryList", route: "/category-list" , icon: <CategoryIcon />},
+    { text: "UsersList", route: "/users-list" ,icon: <PeopleIcon />},
   ];
 
   return (
@@ -122,7 +124,7 @@ export default function SideBar({ open, handleDrawerClose }) {
                       },
                 ]}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {page.icon}
               </ListItemIcon>
               <ListItemText
                 primary={page.text}
