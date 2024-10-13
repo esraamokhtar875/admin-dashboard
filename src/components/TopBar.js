@@ -84,21 +84,65 @@ export default function TopBar({ open, handleDrawerOpen, setMode, mode }) {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
+
+
   const handleSearch = async () => {
     try {
-      if (searchQuery) {
+        if (searchQuery) {
+            // Ensure the search query is passed correctly
+            const foodResponse = await api.get(`foodlist/search?q=${searchQuery}`);
+            const categoryResponse = await api.get(`categorylist/search?q=${searchQuery}`);
+            const userResponse = await api.get(`userlist/search?q=${searchQuery}`);
 
-        navigate(`/search`, { state: { query: searchQuery } });
+            console.log('Food response:', foodResponse.data);
+            console.log('Category response:', categoryResponse.data);
+            console.log('User response:', userResponse.data);
 
-        const foodResponse = await api.get(`foodlist/search?q=${searchQuery}/`);
-        const categoryResponse = await api.get(`categorylist/search?q=${searchQuery}/`);
-        const userResponse = await api.get(`userlist/search?q=${searchQuery}/`);
+            const searchResults = {
+                foods: foodResponse.data,
+                categories: categoryResponse.data,
+                users: userResponse.data
+            };
 
-      }
+            navigate(`/search`, { state: { results: searchResults } });
+        }
     } catch (error) {
-      console.error("Error during search", error);
+        console.error("Error during search", error);
     }
-  };
+};
+
+
+//  const handleSearch = async () => {
+//    try {
+//      if (searchQuery) {
+//
+//        navigate(`/search`, { state: { query: searchQuery } });
+//
+//        const foodResponse = await api.get(`foodlist/search?q=${searchQuery}/`);
+//        const categoryResponse = await api.get(`categorylist/search?q=${searchQuery}/`);
+//        const userResponse = await api.get(`userlist/search?q=${searchQuery}/`);
+//
+//
+//        console.log('Food response:', foodResponse.data);
+//        console.log('Category response:', categoryResponse.data);
+//        console.log('User response:', userResponse.data);
+//
+//
+//         const searchResults = {
+//                foods: foodResponse.data,
+//                categories: categoryResponse.data,
+//                users: userResponse.data
+//            };
+//
+//            // Navigate to the search results page and pass the results in state
+//            navigate(`/search`, { state: { results: searchResults } });
+//        }
+//
+//
+//    } catch (error) {
+//      console.error("Error during search", error);
+//    }
+//  };
 
   return (
     <>
