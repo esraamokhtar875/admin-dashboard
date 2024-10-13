@@ -67,9 +67,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function SideBar({ open, handleDrawerClose }) {
   const theme = useTheme();
-  const navigate = useNavigate(); // useNavigate to programmatically navigate between pages
+  const navigate = useNavigate();
 
-  // Pages data
+
   const pages = [
     { text: "Home", route: "/" , icon: <HomeIcon /> },
     { text: "FoodList", route: "/food-list", icon: <MenuBookIcon />  },
@@ -90,7 +90,6 @@ export default function SideBar({ open, handleDrawerClose }) {
       </DrawerHeader>
       <Divider />
       <List>
-        {/* Use the pages array to map the list items */}
         {pages.map((page, index) => (
           <ListItem key={page.text} disablePadding sx={{ display: "block" }}>
             <ListItemButton
@@ -107,7 +106,7 @@ export default function SideBar({ open, handleDrawerClose }) {
                       justifyContent: "center",
                     },
               ]}
-              onClick={() => navigate(page.route)} // Use navigate to change the page
+              onClick={() => navigate(page.route)}
             >
               <ListItemIcon
                 sx={[

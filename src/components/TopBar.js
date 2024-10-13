@@ -8,6 +8,10 @@ import SearchIcon from '@mui/icons-material/Search';
 //import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import api from '../api.js';
+
 
 const drawerWidth = 240;
 
@@ -19,7 +23,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  backgroundColor: theme.palette.appBar.main, // Use the appBar color from theme
+  backgroundColor: theme.palette.appBar.main,
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -71,10 +75,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function TopBar({ open, handleDrawerOpen, setMode, mode }) {
-  const theme = useTheme(); // Access the theme
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   const toggleTheme = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleSearch = async () => {
+    try {
+      if (searchQuery) {
+
+        navigate(`/search`, { state: { query: searchQuery } });
+
+        const foodResponse = await api.get(`foodlist/search?q=${searchQuery}/`);
+        const categoryResponse = await api.get(`categorylist/search?q=${searchQuery}/`);
+        const userResponse = await api.get(`userlist/search?q=${searchQuery}/`);
+
+      }
+    } catch (error) {
+      console.error("Error during search", error);
+    }
   };
 
   return (
@@ -102,6 +125,13 @@ export default function TopBar({ open, handleDrawerOpen, setMode, mode }) {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
@@ -121,6 +151,9 @@ export default function TopBar({ open, handleDrawerOpen, setMode, mode }) {
 }
 
 
+
+
+
 //            <a href="http://127.0.0.1:9000/api/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
 //              <IconButton color="inherit">
 //                <SettingsOutlinedIcon />
@@ -136,69 +169,4 @@ export default function TopBar({ open, handleDrawerOpen, setMode, mode }) {
 
 
 
-//export default function TopBar({ open, handleDrawerOpen }) {
-//  const theme = useTheme()
-//  return (
-//    <>
-//      <AppBar position="fixed" open={open}>
-//        <Toolbar>
-//          <IconButton
-//            color="inherit"
-//            aria-label="open drawer"
-//            onClick={handleDrawerOpen}
-//            edge="start"
-//            sx={[
-//              {
-//                marginRight: 5,
-//              },
-//              open && { display: "none" },
-//            ]}
-//          >
-//            <MenuIcon />
-//          </IconButton>
-//          <Typography variant="h6" noWrap component="div">
-//            Food_Project_Dashboard
-//          </Typography>
-//
-//          <Box flexGrow={0.15} />
-//
-//          <Search>
-//            <SearchIconWrapper>
-//              <SearchIcon />
-//            </SearchIconWrapper>
-//            <StyledInputBase
-//              placeholder="Search…"
-//              inputProps={{ 'aria-label': 'search' }}
-//            />
-//          </Search>
-//
-//          <Box flexGrow={1} />
-//
-//          <Stack direction={"row"}>
-//            {theme.palette.mode === "light" ? (
-//              <IconButton color={"inherit"}>
-//                <LightModeOutlinedIcon />
-//              </IconButton>
-//            ) : (
-//              <IconButton color={"inherit"}>
-//                <DarkModeOutlinedIcon />
-//              </IconButton>
-//            )}
-//
-//            <a href="http://127.0.0.1:9000/api/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-//              <IconButton color={"inherit"}>
-//                <SettingsOutlinedIcon />
-//              </IconButton>
-//            </a>
-//
-//            <a href="http://127.0.0.1:9000/admin" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-//              <IconButton color={"inherit"}>
-//                <Person2OutlinedIcon />
-//              </IconButton>
-//            </a>
-//          </Stack>
-//        </Toolbar>
-//      </AppBar>
-//    </>
-//  );
-//}
+
